@@ -2,9 +2,13 @@ import SessionReact from "supertokens-auth-react/recipe/session";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { TextInput, Checkbox, Button, Group, Box } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useRouter } from "next/navigation";
 
 const ProtectedPage = () => {
   const session: any = useSessionContext();
+  const router = useRouter();
+
+  console.log(session);
 
   const form = useForm({
     initialValues: {
@@ -19,17 +23,31 @@ const ProtectedPage = () => {
     },
   });
 
-  const onSubmit = async () => {
+  const onSubmit = async (values) => {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/on_boarding/data/`
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/on_boarding/doc/data/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: session.userId,
+          doc_name: values.name,
+          registration_number: values.registrationNumber,
+          qualifications: values.educationalQualifications,
+        }),
+      }
     );
+
+    router.push("/inquires");
   };
 
   return (
     <Box mx="10rem" mt="4rem">
       <form
         className="flex flex-col space-y-4"
-        onSubmit={form.onSubmit((values) => console.log(values))}
+        onSubmit={form.onSubmit((values) => onSubmit(values))}
       >
         <TextInput
           withAsterisk

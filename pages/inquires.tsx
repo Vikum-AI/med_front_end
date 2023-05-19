@@ -3,6 +3,7 @@ import SessionReact from "supertokens-auth-react/recipe/session";
 import SuperTokensReact from "supertokens-auth-react";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { Badge, Input, Modal, Textarea } from "@mantine/core";
+import { useRouter } from "next/navigation";
 
 interface ILink {
   name: string;
@@ -12,6 +13,7 @@ interface ILink {
 
 function ProtectedPage() {
   const session: any = useSessionContext();
+  const router = useRouter();
 
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState<any>();
@@ -132,6 +134,12 @@ function ProtectedPage() {
       <section className="flex justify-between p-5">
         <h1 className="text-3xl text-gray-300 font-medium">Med App</h1>
         <section className="flex space-x-4">
+          <button
+            className="bg-sky-700 rounded-lg px-4 py-2 text-slate-300"
+            onClick={() => router.push("/doc_profiles")}
+          >
+            View Doctors
+          </button>
           <button
             className="bg-sky-700 rounded-lg px-4 py-2 text-slate-300"
             onClick={() => setIsOpened(true)}

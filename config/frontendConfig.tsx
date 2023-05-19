@@ -11,6 +11,22 @@ export let frontendConfig = () => {
     // use from SuperTokens. See the full list here: https://supertokens.com/docs/guides
     recipeList: [
       EmailPasswordReact.init({
+        onHandleEvent: async (context) => {
+          console.log("handleEvents");
+          if (context.action === "SESSION_ALREADY_EXISTS") {
+            // TODO:
+          } else {
+            if (context.action === "SUCCESS") {
+              if (context.isNewUser) {
+                console.log("sign-up");
+                await Router.push("/on_boarding");
+              } else {
+                console.log("sign-in");
+                await Router.push("/");
+              }
+            }
+          }
+        },
         signInAndUpFeature: {
           signUpForm: {
             formFields: [
@@ -21,6 +37,24 @@ export let frontendConfig = () => {
               },
             ],
           },
+        },
+
+        getRedirectionURL: async (context) => {
+          console.log("redirect url");
+          if (context.action === "SUCCESS") {
+            if (context.redirectToPath !== undefined) {
+              // we are navigating back to where the user was before they authenticated
+              return context.redirectToPath;
+            }
+            if (context.isNewUser) {
+              console.log("sign-up");
+              return "/on_boarding";
+            } else {
+              console.log("sign-in");
+              return "/";
+            }
+          }
+          return undefined;
         },
       }),
       SessionReact.init(),

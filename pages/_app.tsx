@@ -6,32 +6,32 @@ import * as SuperTokensConfig from "../config/frontendConfig";
 import Session from "supertokens-auth-react/recipe/session";
 
 if (typeof window !== "undefined") {
-    SuperTokensReact.init(SuperTokensConfig.frontendConfig());
+  SuperTokensReact.init(SuperTokensConfig.frontendConfig());
 }
 
 function MyApp({ Component, pageProps }): JSX.Element {
-    useEffect(() => {
-        async function doRefresh() {
-            if (pageProps.fromSupertokens === "needs-refresh") {
-                if (await Session.attemptRefreshingSession()) {
-                    location.reload();
-                } else {
-                    // user has been logged out
-                    SuperTokensReact.redirectToAuth();
-                }
-            }
+  useEffect(() => {
+    async function doRefresh() {
+      if (pageProps.fromSupertokens === "needs-refresh") {
+        if (await Session.attemptRefreshingSession()) {
+          location.reload();
+        } else {
+          // user has been logged out
+          SuperTokensReact.redirectToAuth();
         }
-        doRefresh();
-    }, [pageProps.fromSupertokens]);
-    if (pageProps.fromSupertokens === "needs-refresh") {
-        return null;
+      }
     }
+    doRefresh();
+  }, [pageProps.fromSupertokens]);
+  if (pageProps.fromSupertokens === "needs-refresh") {
+    return null;
+  }
 
-    return (
-        <SuperTokensWrapper>
-            <Component {...pageProps} />
-        </SuperTokensWrapper>
-    );
+  return (
+    <SuperTokensWrapper>
+      <Component {...pageProps} />
+    </SuperTokensWrapper>
+  );
 }
 
 export default MyApp;

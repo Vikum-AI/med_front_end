@@ -155,6 +155,15 @@ function ProtectedPage() {
         </section>
       </section>
 
+      <section className="flex justify-end px-5">
+        <button
+          className="bg-sky-700 rounded-lg px-4 py-2 text-slate-300"
+          onClick={() => router.push("/on_boarding")}
+        >
+          Take Doc Survey
+        </button>
+      </section>
+
       {posts && posts.length > 0 ? (
         <section className="flex flex-col space-y-6 mt-10 mx-10">
           {posts.map((item) => (

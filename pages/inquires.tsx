@@ -155,12 +155,18 @@ function ProtectedPage() {
         </section>
       </section>
 
-      <section className="flex justify-end px-5">
+      <section className="flex justify-end px-5  space-x-4">
         <button
           className="bg-sky-700 rounded-lg px-4 py-2 text-slate-300"
           onClick={() => router.push("/on_boarding")}
         >
           Take Doc Survey
+        </button>
+        <button
+          className="bg-sky-700 rounded-lg px-4 py-2 text-slate-300"
+          onClick={() => router.push("/find_docs")}
+        >
+          Find Doctors
         </button>
       </section>
 
